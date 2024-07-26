@@ -9,6 +9,33 @@
         3.网状结构
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define SEQ_LIST_INIT_LEN           8
+
+#define INSERT_BACK                 1
+#define INSERT_FRONT                2
+#define DELETE_BACK                 3
+#define DELETE_FRONT                4
+#define INSERT_POS                  5
+#define DELETE_POS                  6
+#define MODIFY_POS                  7
+#define SHOW_LIST                   8
+#define FIND                        9
+#define CUR_LENGTH                  10
+#define CLEAR_LIST                  11
+#define DESTORY_LIST                12
+#define SORT                        13
+#define REVERSE_LIST                14
+#define EXIT_SYSTEM                 15
+
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
 
 typedef struct
 {
@@ -25,10 +52,79 @@ typedef struct
     int seq_list_cur_len;
 }seq_list_t;
 
-
+void seq_list_init(seq_list_t *seq_list);
 
 int main(void)
 {
     seq_list_t seq_list;
+    seq_list_init(&seq_list);
+    u32 opera = 0;
+
+    while(1)
+    {
+        printf("-------------------------------------\n");
+        printf("| Seq_List Operation:               |\n");
+        printf("-------------------------------------\n");
+        printf("| (1) insert_back   (2)insert_front |\n");
+        printf("| (3) delete_back   (4)delete_front |\n");
+        printf("| (5) insert_pos    (6)delete_pos   |\n");
+        printf("| (7) modify_pos    (8)show_list    |\n");
+        printf("| (9) find          (10)cur_length  |\n");
+        printf("| (11) clear_list   (12)destroy_list|\n");
+        printf("| (13) sort         (14)reverse_list|\n");
+        printf("| (15) exit_system                  |\n");
+        printf("-------------------------------------\n");
+        printf("Please enter the operation you want:>");
+        scanf("%d", &opera);
+        switch(opera)
+        {
+            case INSERT_BACK:
+                break;
+            case INSERT_FRONT:
+                break;
+            case DELETE_BACK:
+                break;
+            case DELETE_FRONT:
+                break;
+            case INSERT_POS:
+                break;
+            case DELETE_POS:
+                break;
+            case MODIFY_POS:
+                break;
+            case SHOW_LIST:
+                break;
+            case FIND:
+                break;
+            case CUR_LENGTH:
+                break;
+            case CLEAR_LIST:
+                break;
+            case DESTORY_LIST:
+                break;
+            case SORT:
+                break;
+            case REVERSE_LIST:
+                break;
+            case EXIT_SYSTEM:
+                break;
+            default:
+                printf("Please enter 0-14\n\n\n");
+                break;
+        }
+    }
     return 0;
 }
+
+
+void seq_list_init(seq_list_t *seq_list)
+{
+    seq_list->base = (element_t *)malloc(sizeof(element_t) * SEQ_LIST_INIT_LEN);
+    if(NULL == seq_list->base)
+    {
+        printf("malloc error\n");
+        exit(0);
+    }
+    seq_list->seq_list_cur_len = 0;
+    seq_list->seq_list_tot_len = 8;
+}   /* seq_list_init() */
