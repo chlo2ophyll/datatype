@@ -53,13 +53,13 @@ typedef struct
 }seq_list_t;
 
 void seq_list_init(seq_list_t *seq_list);
-
+void insert_back(seq_list_t *seq_list, element_t *element);
 int main(void)
 {
     seq_list_t seq_list;
     seq_list_init(&seq_list);
     u32 opera = 0;
-
+    element_t element;
     while(1)
     {
         printf("-------------------------------------\n");
@@ -79,6 +79,9 @@ int main(void)
         switch(opera)
         {
             case INSERT_BACK:
+            printf("(Insert back)Please enter user's name email and grade:");
+            scanf("%s %s %d", element.user_name, element.user_email, &element.user_grade);
+            insert_back(&seq_list, &element);
                 break;
             case INSERT_FRONT:
                 break;
@@ -128,3 +131,26 @@ void seq_list_init(seq_list_t *seq_list)
     seq_list->seq_list_cur_len = 0;
     seq_list->seq_list_tot_len = 8;
 }   /* seq_list_init() */
+
+
+void insert_back(seq_list_t *seq_list, element_t *element)
+{
+    printf("%s %s %d\n", element->user_name, element->user_email, element->user_grade);
+    if(seq_list->seq_list_cur_len == seq_list->seq_list_tot_len)
+    {
+        printf("SQL is full\n");
+        return;
+    }
+    memcpy((seq_list->base + seq_list->seq_list_cur_len)->user_name, element->user_name, 20);
+    memcpy((seq_list->base + seq_list->seq_list_cur_len)->user_email, element->user_email, 20);
+    (seq_list->base + seq_list->seq_list_cur_len)->user_grade = element->user_grade;
+    
+    seq_list->seq_list_cur_len++;
+    element->user_id = seq_list->seq_list_cur_len;
+    
+    for(u8 i = 0; i < seq_list->seq_list_cur_len; i++)
+    {
+        printf("%s %s %d\n", seq_list->base[i].user_name, seq_list->base[i].user_email, seq_list->base[i].user_grade);
+        
+    }
+}   /* insert_back() */
