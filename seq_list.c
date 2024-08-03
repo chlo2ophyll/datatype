@@ -55,13 +55,18 @@ typedef struct
 void seq_list_init(seq_list_t *seq_list);
 void insert_back(seq_list_t *seq_list, element_t *element);
 void insert_front(seq_list_t *seq_list, element_t *element);
+void delete_back(seq_list_t *seq_list, u32 tmp);
+void delete_front(seq_list_t *seq_list, u32 tmp);
 void show_list(seq_list_t *seq_list);
+
+
 int main(void)
 {
     seq_list_t seq_list;
     seq_list_init(&seq_list);
     u32 opera = 0;
     element_t element;
+    u32 tmp = 0;
     while(1)
     {
         printf("-------------------------------------\n");
@@ -91,8 +96,14 @@ int main(void)
                 insert_front(&seq_list, &element);
                 break;
             case DELETE_BACK:
+                printf("(Delete back)Please enter delete number:");
+                scanf("%d", &tmp);
+                delete_back(&seq_list, tmp);
                 break;
             case DELETE_FRONT:
+                printf("(Delete front)Please enter delete number:");
+                scanf("%d", &tmp);
+                delete_front(&seq_list, tmp);
                 break;
             case INSERT_POS:
                 break;
@@ -168,13 +179,50 @@ void insert_front(seq_list_t *seq_list, element_t *element)
     for(i = seq_list->seq_list_cur_len; i > 0; i--)
     {
         memcpy((seq_list->base + i), (seq_list->base + i - 1), sizeof(element_t));
+        (seq_list->base + i)->user_id++;
     }
     memcpy(seq_list->base->user_name, element->user_name, 20);
     memcpy(seq_list->base->user_email, element->user_email, 20);
     seq_list->base->user_grade = element->user_grade;
-    seq_list->base->user_id = seq_list->seq_list_cur_len+1;
+    seq_list->base->user_id = 1;
     seq_list->seq_list_cur_len++;
 }   /* insert_front() */
+
+
+void delete_back(seq_list_t *seq_list, u32 tmp)
+{
+    if(tmp > seq_list->seq_list_cur_len)
+    {
+        printf("The number of deletions you entered exceeds the current number\n");
+        return ;
+    }
+
+    seq_list->seq_list_cur_len -= tmp;
+    memset((seq_list->base + seq_list->seq_list_cur_len), 0, sizeof(seq_list_t) * tmp);
+}   /* delete_back() */
+
+
+void delete_front(seq_list_t *seq_list, u32 tmp)
+{
+    u32 debug_i_id = 0;
+    u32 debug_j_id = 0;
+    u32 tmp_len = 0;
+    if(tmp > seq_list->seq_list_cur_len)
+    {
+        printf("The number of deletions you entered exceeds the current number\n");
+        return ;
+    }
+    seq_list->seq_list_cur_len -= tmp;
+    tmp_len = seq_list->seq_list_cur_len;
+    if(0 != seq_list->seq_list_cur_len)
+    {
+        for(u8 i = tmp, j = 0; j < tmp_len; i++, j++)
+        {
+            memcpy((seq_list->base + j), (seq_list->base + i), sizeof(seq_list_t));
+            (seq_list->base + j)->user_id -= tmp;
+        }
+    }
+}   /* delete_front() */
 
 
 void show_list(seq_list_t *seq_list)
